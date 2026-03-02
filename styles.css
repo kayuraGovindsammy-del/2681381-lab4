@@ -1,9 +1,9 @@
 .spinner {
     border: 6px solid #f3f3f3;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite; /* Required */
+    border-radius: 10%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite; 
 }
 
 @keyframes spin {
@@ -13,8 +13,8 @@
 
 .country-card {
     background: white;
-    padding: 20px;
-    margin: 20px;
+    padding: 10px;
+    margin: 10px;
 }
 
 .border-grid {
