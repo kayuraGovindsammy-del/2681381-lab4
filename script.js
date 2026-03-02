@@ -7,14 +7,13 @@ const errorMessage = document.getElementById('error-message');
 
 async function searchCountry(countryName) {
     try {
+        errorMessage.textContent = "";
+        countryInfo.innerHTML = "";
+        borderingCountries.innerHTML = "";
+
         if (!countryName){
             throw new Error("enter a country name.");
         }
-
-        errorMessage.classList.add('hidden');
-        countryInfo.classList.add('hidden');
-        borderingCountries.classList.add('hidden');
-        borderingCountries.innerHTML = "";
 
         spinner.classList.remove('hidden');
 
@@ -42,42 +41,35 @@ async function searchCountry(countryName) {
                     .then(res => res.json())
             );
 
-            const borderResults = await Promise.all(borderPromises);
+            const borderData = await Promise.all(borderPromises);
 
-            borderingCountries.innerHTML = "<h3>Bordering Countries</h3>";
+            borderData.forEach(border => {
+                const neighbor = border[0];
+                const div = document.createElement("div");
 
-            borderResults.forEach(borderData => {
-                const border = borderData[0];
-
-                borderingCountries.innerHTML += `
-                    <div class="border-country">
-                        <p>${border.name.common}</p>
-                        <img src="${border.flags.svg}" alt="${border.name.common} flag">
-                    </div>
+                div.innerHTML = `
+                        <p>${neighbor.name.common}</p>
+                        <img src="${border.flags.svg}" alt="${neighbor.name.common} flag" width = "80">
                 `;
+                borderingCountries.appendChild(div);
             });
 
         } 
-        else{
-                borderingCountries.innerHTML = "<p> No bordering countries. </p>";
-            }
-            borderingCountries.classList.remove('hidden');
-
         
     } catch (error) {
         errorMessage.textContent = error.message;
-        errorMessage.classList.remove('hidden');
         
     } finally {
         spinner.classList.add('hidden');
     }
 }
 searchBtn.addEventListener('click', () => {
-    searchCountry(input.value.trim());
+    const country = countryInput.value.trim();
+    searchCountry(country);
 });
 
 input.addEventListener('keypress', (event) => {
     if (event.key === "Enter") {
-        searchCountry(input.value.trim());
+        searchCountry(countryInput.value.trim());
     }
 });
