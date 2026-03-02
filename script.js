@@ -37,9 +37,16 @@ async function searchCountry(countryName) {
         countryInfo.classList.remove('hidden');
 
         if (country.borders) {
-            for (let code of country.borders) {
-                const borderResponse = await fetch (`https://restcountries.com/v3.1/alpha/${code}`);
-                const borderData = await borderResponse.json();
+            const borderPromises = country.borders.map(code =>
+                fetch(`https://restcountries.com/v3.1/alpha/${code}`)
+                    .then(res => res.json())
+            );
+
+            const borderResults = await Promise.all(borderPromises);
+
+            borderingCountries.innerHTML = "<h3>Bordering Countries</h3>";
+
+            borderResults.forEach(borderData => {
                 const border = borderData[0];
 
                 borderingCountries.innerHTML += `
@@ -48,7 +55,8 @@ async function searchCountry(countryName) {
                         <img src="${border.flags.svg}" alt="${border.name.common} flag">
                     </div>
                 `;
-            } 
+            });
+
         } 
         else{
                 borderingCountries.innerHTML = "<p> No bordering countries. </p>";
