@@ -1,5 +1,8 @@
 .spinner {
-    /* Your styling */
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     animation: spin 1s linear infinite; /* Required */
 }
 
@@ -9,15 +12,24 @@
 }
 
 .country-card {
-    background: fixed;
-    padding: 0%;
+    background: white;
+    padding: 20px;
+    margin: 20px;
 }
 
 .border-grid {
+    display: flex;
+    justify-content: center;
 
 }
 
 .error{
-    
+    color: red;
+    font-weight: bold;
+
+}
+
+.hidden {
+    display: none;
 }
 
